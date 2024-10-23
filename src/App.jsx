@@ -1,5 +1,5 @@
 import React from "react";
-import Block from "./block";
+import Block from "./components/block";
 function App() {
   return (
     <div>
