@@ -5,9 +5,9 @@ import Img from "./img";
 function block() {
   return (
     <div>
-      <Heading />
-      <Para />
-      <Img />
+      <Heading head="hello world" />
+      <Para paragraph="this is a paragraph" />
+      <Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jrwvSBxY3VxhOM708i8Jhb-PhKokOa7pKQ&s" />
     </div>
   );
 }

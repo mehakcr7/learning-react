@@ -1,9 +1,9 @@
 import React from 'react'
 
-function img() {
+function img({src,alt}) {
   return (
     <div>
-       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jrwvSBxY3VxhOM708i8Jhb-PhKokOa7pKQ&s" alt="" />
+      <img src={src} alt={alt} /> 
     </div>
   )
 }

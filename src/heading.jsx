@@ -1,9 +1,9 @@
 import React from 'react'
 
-const heading = () => {
+const heading = ({head}) => {
   return (
     <div>
-        <h1>Main heading</h1>
+        <h1>{head}</h1>
       
     </div>
     
