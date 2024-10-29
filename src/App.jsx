@@ -1,11 +1,10 @@
 import React from "react";
-import Main from "./components/Main";
-
+import Sharon from "./components/Sharon";
 
 function App() {
   return (
-    <div>
-     <Main/>
+    <div className="bg-black h-screen	">
+      <Sharon />
     </div>
   );
 }
