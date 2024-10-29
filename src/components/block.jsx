@@ -1,15 +1,16 @@
 import React from "react";
-import Heading from "./heading";
-import Para from "./para";
-import Img from "./img";
-function block() {
+import Heading from "./Heading";
+import Para from "./Para";
+import Img from "./Image";
+
+function Block({ heading, paragraph, src }) {
   return (
     <div>
-      <Heading head="hello world" />
-      <Para paragraph="this is a paragraph" />
-      <Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jrwvSBxY3VxhOM708i8Jhb-PhKokOa7pKQ&s" />
+      <Heading heading={heading} />
+      <Para paragraph={paragraph} />
+      <Img src={src} />
     </div>
   );
 }
 
-export default block;
+export default Block;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const para = ({paragraph}) => {
+const Para = ({paragraph}) => {
   return (
     <div>
       <p>{paragraph}
@@ -9,4 +9,4 @@ const para = ({paragraph}) => {
   )
 }
 
-export default para
+export default Para
