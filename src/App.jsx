@@ -1,10 +1,13 @@
 import React from "react";
-import Sharon from "./components/Sharon";
+import CounterMain from "./components/CounterMain";
+
+
 
 function App() {
   return (
-    <div className="bg-black h-screen	">
-      <Sharon />
+    <div>
+      {/* <Sharon /> */}
+      {<CounterMain/>}
     </div>
   );
 }

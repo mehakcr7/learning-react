@@ -3,8 +3,8 @@ import React from "react";
 function Herosection() {
   return (
     <div>
-      <div className="flex px-56 justify-between   text-white ">
-        <div className="text-center flex flex-col gap-6 ">
+      <div className="flex px-56 justify-between h-svh text-white ">
+        <div className="text-center flex flex-col  gap-10 ">
           <h1 className="text-8xl font-extrabold text-red-600">
             DESIGN <br /> YOUR <br /> DREAM <br /> HOME
           </h1>
