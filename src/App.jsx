@@ -1,7 +1,5 @@
 import React from "react";
-import CounterMain from "./components/CounterMain";
-import TodoMain from "./components/TodoMain";
-import Sharon from "./components/Sharon"
+import Loading from "./components/useEffect/Loading";
 
 
 
@@ -10,7 +8,8 @@ function App() {
     <div>
       {/* <Sharon /> */}
       {/* {<CounterMain/>} */}
-      {<TodoMain/>}
+      {/* {<TodoMain/>} */}
+      {<Loading/>}
 
     </div>
   );
