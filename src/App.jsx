@@ -1,15 +1,16 @@
 import React from "react";
-import Loading from "./components/useEffect/Loading";
-
+import EcommerceMain from "./components/stateDrilling/Ecommerce/EcommerceMain"
 
 
 function App() {
   return (
     <div>
-      {/* <Sharon /> */}
+      {/* <Sharon/> */}
       {/* {<CounterMain/>} */}
       {/* {<TodoMain/>} */}
-      {<Loading/>}
+      {/* {<Loading/>} */}
+      {/* <StateDrilling/> */}
+      <EcommerceMain/>
 
     </div>
   );
