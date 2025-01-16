@@ -1,16 +1,48 @@
 import React, { useState } from "react";
 import Navbar from "../../Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProductList from "./ProductList";
+import ProductDetails from "./ProductDetails";
+import Cart from "./Cart";
 
 function Main() {
   const [num, setNum] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cart, setCart] = useState([]);
+  const quantitySum = cart.reduce((sum, product) => sum + product.quantity,0)
 
-  function addToCart() {
-    setNum(num + 1);
-  }
+  // Example of adding an item to the cart with a quantity
+  const addToCart = (product) => {
+    const newCart = [...cart];
+    const existingProductIndex = newCart.findIndex(
+      (item) => item.Name === product.Name
+    );
+
+    if (existingProductIndex >= 0) {
+      // If the product is already in the cart, increase the quantity
+      newCart[existingProductIndex].quantity += 1;
+    } else {
+      // If it's not in the cart, add it with quantity 1
+      newCart.push({ ...product, quantity: 1 });
+    }
+    setNum(quantitySum)
+    setCart(newCart);
+  };
+
+  const removeFromCart = (index) => {
+    const updatedCart = [...cart];
+    updatedCart.splice(index, 1);
+    setCart(updatedCart);
+  };
+
+  // alternative method for removing................
+
+  // const removeFromCart = (index) => {
+  //   setCart(cart.filter((_, i) => i !== index)); // Removes the item at the given index
+  // };
 
   const products = [
     {
+      id: 1,
       Name: "Chocolate Cake",
       Price: 15.99,
       Image:
@@ -19,6 +51,7 @@ function Main() {
         "A rich and moist chocolate cake topped with smooth chocolate ganache.",
     },
     {
+      id: 2,
       Name: "Vanilla Cupcake",
       Price: 3.49,
       Image:
@@ -26,6 +59,7 @@ function Main() {
       Description: "A fluffy vanilla cupcake with creamy buttercream frosting.",
     },
     {
+      id: 3,
       Name: "Blueberry Muffin",
       Price: 2.99,
       Image:
@@ -34,6 +68,7 @@ function Main() {
         "A delicious muffin packed with fresh blueberries for a fruity burst.",
     },
     {
+      id: 4,
       Name: "Multigrain Bread",
       Price: 4.49,
       Image:
@@ -42,6 +77,7 @@ function Main() {
         "A healthy and hearty multigrain bread, perfect for any meal.",
     },
     {
+      id: 5,
       Name: "Cheesecake Slice",
       Price: 5.99,
       Image:
@@ -49,101 +85,107 @@ function Main() {
       Description:
         "A creamy and tangy cheesecake slice with a buttery graham cracker crust.",
     },
+    {
+      id: 6,
+      Name: "Chocolate Brownie",
+      Price: 4.99,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A rich, fudgy chocolate brownie with a gooey center and a crispy top.",
+    },
+    {
+      id: 7,
+      Name: "Tiramisu Cup",
+      Price: 6.49,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A classic Italian dessert layered with mascarpone cream and espresso-soaked ladyfingers.",
+    },
+    {
+      id: 8,
+      Name: "Lemon Tart",
+      Price: 5.49,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A tangy lemon curd-filled tart with a buttery shortbread crust.",
+    },
+    {
+      id: 9,
+      Name: "Red Velvet Cupcake",
+      Price: 3.99,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A moist red velvet cupcake topped with smooth cream cheese frosting.",
+    },
+    {
+      id: 10,
+      Name: "Macaron Assortment",
+      Price: 7.99,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A collection of delicate macarons in a variety of flavors and colors.",
+    },
+    {
+      id: 11,
+      Name: "Blueberry Muffin",
+      Price: 3.49,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A fluffy muffin bursting with sweet blueberries and a hint of vanilla.",
+    },
+    {
+      id: 12,
+      Name: "Carrot Cake Slice",
+      Price: 4.99,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description:
+        "A moist carrot cake slice filled with spices and topped with cream cheese frosting.",
+    },
+    {
+      id: 13,
+      Name: "Chocolate Chip Cookie",
+      Price: 2.99,
+      Image:
+        "https://tse4.mm.bing.net/th?id=OIP.Heo1kjvHKq4L24GYYqsz_AHaE8&pid=Api&P=0&h=180",
+      Description: "A classic chewy cookie loaded with gooey chocolate chips.",
+    },
   ];
 
   return (
-    <div>
-      <Navbar Num={num} />
-      <div className="flex justify-center flex-wrap gap-5 p-4">
-        {selectedProduct ? (
-          <div className="group border border-gray-300 p-4 rounded-lg w-48 shadow-md hover:shadow-lg transition-shadow">
-            <div className="h-72">
-              <img
-                src={selectedProduct.Image}
-                alt={selectedProduct.Name}
-                className="w-full h-36 object-cover rounded-t-md"
+    <Router>
+      <div>
+        <Navbar Num={num} />
+        <Routes>
+          <Route
+            path="/"
+            element={<ProductList products={products} addToCart={addToCart} />}
+          />
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cart={cart}
+                removeFromCart={removeFromCart}
+                setNum={setNum}
+                setCart={setCart}
+                quantitySum ={quantitySum}
               />
-              <h3 className="text-lg font-semibold mt-2">
-                {selectedProduct.Name}
-              </h3>
-              <p className="text-gray-600 text-sm">
-                <strong>Price:</strong> ${selectedProduct.Price}
-              </p>
-              <p className="text-gray-500 text-sm">
-                {selectedProduct.Description}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <button className="border rounded-lg bg-red-400 cursor-pointer"
-                onClick={() => setSelectedProduct(null)}
-                
-              >
-                Back to Products
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addToCart();
-                }}
-                className="border rounded-lg bg-yellow-400 cursor-pointer"
-              >
-                Add to Cart
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className="border rounded-lg bg-orange-400 cursor-pointer"
-              >
-                Buy Now
-              </button>
-            </div>
-          </div>
-        ) : (
-          products.map((product, index) => (
-            <div
-              key={index}
-              className="group border border-gray-300 p-4 hover:cursor-pointer rounded-lg w-48 shadow-md hover:shadow-lg transition-shadow"
-              onClick={() => setSelectedProduct(product)}
-            >
-              <div className="h-72">
-                <img
-                  src={product.Image}
-                  alt={product.Name}
-                  className="w-full h-36 object-cover rounded-t-md"
-                />
-                <h3 className="text-lg font-semibold mt-2 group-hover:text-blue-700">
-                  {product.Name}
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  <strong>Price:</strong> ${product.Price}
-                </p>
-                <p className="text-gray-500 text-sm">{product.Description}</p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart();
-                  }}
-                  className="border rounded-lg bg-yellow-400 cursor-pointer"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="border rounded-lg bg-orange-400 cursor-pointer"
-                >
-                  Buy Now
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={<ProductDetails products={products} />}
+          />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 

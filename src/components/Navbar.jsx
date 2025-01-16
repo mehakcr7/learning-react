@@ -1,16 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar({Num}) {
   return (
     <div className="flex justify-around py-6 px-7 text-xl	text-black">
-      <div className="font-semibold text-2xl">Amazon</div>
+      <div className="font-semibold text-2xl">Notime Store</div>
       <div className="flex gap-8 text-black">
-        <a className="hover:text-red-600" href="/">
+        
+        <Link className="hover:text-red-600" to="/">
+        
           Home
-        </a>
-        <a className="hover:text-red-600" href="/about">
-          About
-        </a>
+        </Link> 
+      
+        <Link to= "/cart">
         <div className="flex">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +30,7 @@ function Navbar({Num}) {
         </svg>
         {Num}
         </div>
+        </Link>
       </div>
     </div>
   );
