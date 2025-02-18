@@ -11,8 +11,8 @@ function App() {
       {/* {<TodoMain/>} */}
       {/* {<Loading/>} */}
       {/* <StateDrilling/> */}
-      <EcommerceMain/>
       {/* <E_com/> */}
+      <EcommerceMain/>
 
     </div>
   );

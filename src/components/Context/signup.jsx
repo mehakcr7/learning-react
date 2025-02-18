@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { supabase } from './supabaseClient';
 
 function Signup() {
@@ -6,6 +7,7 @@ function Signup() {
     name: '',
     email: '',
     contact: '',
+    address: '',
     dob: '',
     password: '',
   });
@@ -18,15 +20,34 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await supabase
-      .from('users') // Replace 'users' with your table name
-      .insert([formData]);
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
 
     if (error) {
-      console.error('Error inserting data:', error.message);
+      console.error("Signup error:", error.message);
+      alert("Signup failed: " + error.message);
     } else {
-      console.log('Data inserted successfully:', data);
-      alert('User registered successfully!');
+      console.log("Signup successful:", data);
+
+      if (data.user) {
+        const { error: dbError } = await supabase.from('users').insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            address: formData.address,
+            contact: formData.contact,
+            dob: formData.dob,
+          },
+        ]).select();
+
+        if (dbError) {
+          console.error("Error inserting additional user data:", dbError.message);
+        } else {
+          alert("User registered successfully!");
+        }
+      }
     }
   };
 
@@ -44,6 +65,7 @@ function Signup() {
               onChange={handleChange}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
               placeholder="Enter your name"
+              required
             />
           </div>
           <div>
@@ -55,6 +77,7 @@ function Signup() {
               onChange={handleChange}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
               placeholder="Enter your email"
+              required
             />
           </div>
           <div>
@@ -68,6 +91,7 @@ function Signup() {
               onChange={handleChange}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
               placeholder="Enter your contact number"
+              required
             />
           </div>
           <div>
@@ -78,6 +102,18 @@ function Signup() {
               value={formData.dob}
               onChange={handleChange}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Address</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
+              required
             />
           </div>
           <div>
@@ -89,15 +125,22 @@ function Signup() {
               onChange={handleChange}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm"
               placeholder="Enter your password"
+              required
             />
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <button
               type="submit"
               className="w-32 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
             >
               Sign Up
             </button>
+            <p className="mt-4 text-sm text-gray-600">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-500 hover:underline">
+                Login
+              </Link>
+            </p>
           </div>
         </form>
       </div>

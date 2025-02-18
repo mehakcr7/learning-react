@@ -3,7 +3,10 @@ import Navbar from "../../Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductList from "./ProductList";
 import ProductDetails from "./ProductDetails";
+import Login from "../../Context/login"
+import Signup from "../../Context/signup"
 import Cart from "./Cart";
+import User from "./user"
 
 function Main() {
   const [num, setNum] = useState(0);
@@ -166,6 +169,18 @@ function Main() {
           <Route
             path="/"
             element={<ProductList products={products} addToCart={addToCart} />}
+          />
+          <Route
+            path="/user"
+            element={<User />}
+          />
+          <Route
+            path="/signup"
+            element={<Signup />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
           />
           <Route
             path="/cart"

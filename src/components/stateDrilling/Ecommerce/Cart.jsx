@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../../Context/supabaseClient";
 
 function Cart({ cart, removeFromCart, setCart, setNum, quantitySum }) {
   const total = cart.reduce((sum, item) => sum + item.Price * item.quantity, 0);
-  // const quantitySum = cart.reduce((sum, item) => sum + item.quantity,0)
+
   function additionToCart(product) {
     const newCart = [...cart];
     const existingProductIndex = newCart.findIndex(
@@ -15,6 +16,7 @@ function Cart({ cart, removeFromCart, setCart, setNum, quantitySum }) {
     setCart(newCart);
     setNum(quantitySum);
   }
+
   function subtractFromCart(product) {
     const newCart = [...cart];
     const existingProductIndex = newCart.findIndex(
@@ -28,6 +30,36 @@ function Cart({ cart, removeFromCart, setCart, setNum, quantitySum }) {
     setCart(newCart);
     setNum(quantitySum);
   }
+
+  const handleBuyNow = async (cartItems) => {
+    try {
+      const { data, error } = await supabase
+        .from("addToCart")
+        .insert([
+          {
+            name: cartItems, 
+          },
+        ]);
+  
+      if (error) {
+        console.error("Error adding to cart:", error.message);
+        alert(`Order failed: ${error.message}`);
+        return;
+      }
+  
+      alert("Order placed successfully!");
+  
+      // Clear the cart after a successful purchase
+      setCart([]);
+      setNum(0);
+  
+    } catch (err) {
+      console.error("Error processing order:", err);
+    }
+  };
+  
+  
+
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
@@ -66,37 +98,45 @@ function Cart({ cart, removeFromCart, setCart, setNum, quantitySum }) {
                       ${item.Price.toFixed(2)} x {item.quantity} = $
                       {(item.Price * item.quantity).toFixed(2)}
                     </p>
-                    <p className="text-gray-500">${item.Price.toFixed(2)}</p>
                   </div>
                 </div>
 
-               
-                <div className="px-1 flex items-center gap-4 py-1 bg-blue-500 text-white text-sm rounded-lg ">
-                <button
-                  onClick={() => additionToCart(item)}
-                  className="px-3 py-1  rounded-lg  hover:bg-blue-600 transition"
-                >
-                  +
-                </button>
-                {item.quantity}   
-                <button onClick={()=> subtractFromCart(item)}  className="px-3 py-1   rounded-lg  hover:bg-blue-600 transition">
-                  -  
-                </button>
+                <div className="px-1 flex items-center gap-4 py-1 bg-blue-500 text-white text-sm rounded-lg">
+                  <button
+                    onClick={() => additionToCart(item)}
+                    className="px-3 py-1 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    +
+                  </button>
+                  {item.quantity}
+                  <button
+                    onClick={() => subtractFromCart(item)}
+                    className="px-3 py-1 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    -
+                  </button>
                 </div>
                 <button
                   onClick={() => removeFromCart(index)}
                   className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
                 >
                   Remove
-                </button> 
+                </button>
               </div>
             ))}
           </div>
+
           <div className="mt-6 text-right">
             <h2 className="text-xl font-bold text-gray-800">
               Total: ${total.toFixed(2)}
               {setNum(quantitySum)}
             </h2>
+            <button
+              onClick={()=>handleBuyNow(cart)}
+              className="mt-4 px-6 py-2 bg-green-500 text-white text-lg font-semibold rounded-lg hover:bg-green-600 transition"
+            >
+              Buy Now
+            </button>
           </div>
         </div>
       )}
